@@ -1,4 +1,4 @@
-require "active_record"
+  arequire "active_record"
 require "yaml"
 
 include ActiveRecord::Tasks
