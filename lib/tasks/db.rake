@@ -1,4 +1,4 @@
-  arequire "active_record"
+require "active_record"
 require "yaml"
 
 def env

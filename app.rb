@@ -3,6 +3,7 @@ require "active_record"
 require "./lib/database_connection"
 require "rack-flash"
 require_relative "model"
+require "gschool_database_connection"
 
 class App < Sinatra::Application
   enable :sessions
@@ -10,6 +11,7 @@ class App < Sinatra::Application
 
   def initialize
     super
+    @database_connection = GschoolDatabaseConnection::DatabaseConnection
     @database_connection = DatabaseConnection.establish(ENV["RACK_ENV"])
   end
 
@@ -70,6 +72,18 @@ class App < Sinatra::Application
   get "/user/:username" do
     user = params[:username]
     erb :user_page, locals: { :user => user, :fish_data => users_fish_list(user) }
+  end
+
+
+  post "/add_as_favorite/:username" do
+   user = params[:username]
+   fish_id = params[:fish_id]
+   user_id = params[:user_id]
+
+   favoritor_user_id(fish_id, user_id)
+   redirect "/user/#{user}"
+
+
   end
 
 end

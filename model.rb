@@ -87,10 +87,15 @@ end
 
 def users_fish_list(name)
   user = @database_connection.sql("SELECT id FROM users WHERE username = '#{name}';")
-  fish_data = @database_connection.sql("SELECT fishname, wiki_link, user_id FROM fish;")
+  fish_data = @database_connection.sql("SELECT id, fishname, wiki_link, user_id FROM fish;")
   user_hash = user.pop
 
   fish_data.select do |fish_hash|
     user_hash["id"] == fish_hash["user_id"]
   end
+end
+
+def favoritor_user_id(fish_id, user_id)
+      @database_connection.sql("INSERT INTO favorites (fish_id, user_id) VALUES (#{fish_id.to_i}, #{user_id.to_i})")
+
 end

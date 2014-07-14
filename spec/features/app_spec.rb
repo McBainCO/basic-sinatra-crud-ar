@@ -8,6 +8,15 @@ feature "Homepage" do
     expect(page).to have_button("Register")
   end
 
+  scenario "registered user should be able to link to add a fish" do
+    visit "/"
+    register_user("Frankie")
+    expect(page).not_to have_link("Add Fish")
+    sign_in_user("Frankie")
+    expect(page).to have_link("Add Fish")
+
+  end
+
   scenario "unregistered user can click button and be directed to a  registration page" do
     visit '/'
 
@@ -179,6 +188,32 @@ feature "fishes" do
 
     expect(page).to have_content("Mackerel")
   end
+
+  scenario "logged in user can favorite other user fish" do
+    register_user("Francis")
+    sign_in_user("Francis")
+    create_fish("sethfish")
+    logout_user
+
+
+    register_user("seth")
+    sign_in_user("seth")
+
+    click_link "Francis"
+
+    expect(page).to have_button("Favorite")
+
+    click_on "Favorite"
+
+    expect(page).to have_content("Favorited")
+
+
+
+  end
+
+
+
+
 end
 
 
