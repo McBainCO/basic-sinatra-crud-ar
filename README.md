@@ -8,7 +8,7 @@ Anyways, back to the application!
 
 # Exercise
 
-This web application will walk through a site complete with registration, login, fish creation, user interaction. You'll even be able to delete other user's! Exciting!
+This web application will walk through a site complete with registration, login, fish creation, user interaction. You'll even be able to delete other users! Exciting!
 
 Follow the mockups and stories to get started. The mockups only go through to user sign up and registration. Anything after that is up to you to decide how it looks, since we fired that guy because we didn't need him, obviously, and besides we all know engineers are pretty much designers anyways. Please add your tracker to your students submission.
 

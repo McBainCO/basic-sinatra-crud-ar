@@ -1,0 +1,30 @@
+<h1><%= "Welcome #{name}" %></h1>
+
+<a href="/logout"><button>Logout</button></a>
+
+<h3>Other Users</h3>
+
+<p>Order:</p>
+<form>
+  <input type="radio" name="asc" value="ASC">A to Z<br>
+  <input type="radio" name="desc" value="DESC">Z to A<br>
+  <button>Reorder</button>
+</form>
+
+<ul id="user_list">
+  <% users_data.map do |hash| %>
+    <% if session[:user_id] != hash["id"].to_i %>
+      <li><a href="/user/<%= hash["username"] %>"><%= hash["username"] %></a></li><br>
+        <form action='/delete_user' method='post'><button name='delete_user' type='submit' value='<%= hash["username"] %>'>Delete <%= hash["username"] %></button></form>
+    <% end %>
+  <% end %>
+</ul>
+
+<h3>Your Fish</h3>
+
+<ul><% users_fish_data.each do |fish_hash| %>
+      <li><a href="<%= fish_hash["wiki_link"] %>"><%= fish_hash["fishname"] %></a></li>
+  <% end %>
+</ul>
+
+
