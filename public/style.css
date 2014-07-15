@@ -6,6 +6,7 @@
 
 #register_button {
     border: 2px solid black;
+    border-radius: 20px;
     height: 50px;
     background-color: gray;
     text-align: center;
@@ -18,7 +19,30 @@
     padding-top: 25px;
 }
 
-#registration{
+.registration{
     width: 300px;
     margin: auto;
+}
+
+.wide_input {
+    width: 300px;
+}
+
+.not_wide_input {
+    width:200px;
+}
+
+#info_box {
+    border: 2px solid black;
+    border-radius: 20px;
+    height: 100px;
+    text-align: center;
+    padding-top: 25px;
+}
+
+#border_text {
+    width:100px;
+    margin-top:-35px;
+    margin-left:10px;
+    background: white ;
 }
