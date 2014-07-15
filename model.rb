@@ -48,7 +48,7 @@ end
 
 def finds_name(user_id)
   username = @database_connection.sql("SELECT username FROM users WHERE id = #{user_id}")
-  username.pop["username"]
+   username.pop["username"]
 end
 
 def username_id_hashes(order=nil)

@@ -5,7 +5,7 @@ feature "Homepage" do
   scenario "unregistered user should see a register button" do
     visit '/'
 
-    expect(page).to have_button("Register")
+    expect(page).to have_link("Register")
   end
 
   scenario "registered user should be able to link to add a fish" do
@@ -46,7 +46,7 @@ feature "Homepage" do
     sign_in_user("Frankie")
     logout_user
 
-    expect(page).to have_button("Register")
+    expect(page).to have_link("Register")
   end
 
   scenario "can login and see the other users" do

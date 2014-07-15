@@ -1,0 +1,24 @@
+.wrapper {
+    margin:auto;
+    width:980px;
+    background-color:white;
+}
+
+#register_button {
+    border: 2px solid black;
+    height: 50px;
+    background-color: gray;
+    text-align: center;
+    padding-top: 25px;
+}
+
+
+#login_form {
+    height: 50px;
+    padding-top: 25px;
+}
+
+#registration{
+    width: 300px;
+    margin: auto;
+}
