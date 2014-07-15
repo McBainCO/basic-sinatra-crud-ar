@@ -20,12 +20,12 @@ class App < Sinatra::Application
     desc = params[:desc]
 
     if session[:user_id]
-      erb :homepage2, locals: {:name => finds_name(session[:user_id]),
+      erb :homepage2 , locals: {:name => finds_name(session[:user_id]),
                                :users_data => username_id_hashes(check_for_order(asc, desc)),
-                               :users_fish_data => user_fish_data(session[:user_id])}
+                                :users_fish_data => user_fish_data(session[:user_id])}
     else
       erb :homepage
-    end
+     end
 
   end
 
