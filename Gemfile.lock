@@ -83,7 +83,7 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
-  gschool_database_connection (>= 1.0.0)
+  gschool_database_connection (~> 1.0.0)
   rack-flash3
   rake
   rerun
