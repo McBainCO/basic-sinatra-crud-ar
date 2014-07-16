@@ -4,6 +4,7 @@ require "fish_table"
 require "users_table"
 require "rack-flash"
 require "gschool_database_connection"
+require "users_table"
 
 class App < Sinatra::Application
   enable :sessions
@@ -11,6 +12,9 @@ class App < Sinatra::Application
 
   def initialize
     super
+    @users_table = UsersTable.new(
+      GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
+    )
     @database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
   end
 
