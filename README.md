@@ -1,3 +1,7 @@
+#heroku App 
+
+tantalizing-taggarts-4738
+
 # Sinatra with SQL CRUD
 
 We're building the next hot fish favoriting site; fish.ly. Google, Apple, IBM, and anyone who's anyone is entering this market; we have to move fast. For our MVP (Minimum Viable Product) the site needs to let users register, create fish, and favorite other people's fish. If this is shipped by the end of this week, we close a $20m round at a $300m valuation; just enough to feed our families!
@@ -32,3 +36,4 @@ Follow the mockups and stories to get started. The mockups only go through to us
 1. Finish and deliver story
 1. Check heroku and bask in the glory of real software
 1. Rinse and Repeat
+

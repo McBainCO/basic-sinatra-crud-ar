@@ -15,7 +15,7 @@ class App < Sinatra::Application
     @users_table = UsersTable.new(
       GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
     )
-    @fish_table = FishTable.new(
+    @fish_table = FishyTable.new(
       GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
     )
     @database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])

@@ -1,4 +1,4 @@
-class FishTable
+class FishyTable
   def initialize(database_connection)
     @database_connection = database_connection
   end
