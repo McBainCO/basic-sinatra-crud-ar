@@ -24,9 +24,10 @@ class App < Sinatra::Application
     if session[:user_id]
       name = @users_table.finds_name(session[:user_id])
       users_data = @users_table.username_id_hashes(check_for_order(asc, desc))
+      fish_data = user_fish_data(session[:user_id])
       erb :homepage2 , locals: {:name => name,
                                :users_data => users_data,
-                                :users_fish_data => user_fish_data(session[:user_id])}
+                                :users_fish_data => fish_data }
     else
       erb :homepage
     end
