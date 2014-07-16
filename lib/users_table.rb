@@ -27,6 +27,15 @@ class UsersTable
     @database_connection.sql("DELETE FROM fish WHERE user_id = '#{users_id}'")
     @database_connection.sql("DELETE FROM users WHERE username = '#{user_delete}'")
   end
+  def create_users(username, password)
+  @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{username}', '#{password}')")
+  end
+
+  def get_user_name(name)
+    @database_connection.sql("SELECT id FROM users WHERE username = '#{name}'")
+  end
+
+
 
 
 end

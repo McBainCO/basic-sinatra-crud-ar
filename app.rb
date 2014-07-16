@@ -48,10 +48,6 @@ class App < Sinatra::Application
     redirect "/"
   end
 
-#-------------------------------
-
-
-
   get "/registration" do
     erb :registration
   end
@@ -61,14 +57,14 @@ class App < Sinatra::Application
     password = params[:password]
     user_registration(username, password)
   end
-#^^^^^^^^^^^^^^^^^^^^^^^^
+
   def user_registration(username, password)
     if username == "" || password == ""
       username_and_password(username, password)
       redirect '/registration'
     else
       begin
-        @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{username}', '#{password}')")
+        @users_table.create_users(username, password)
         flash[:notice] = "Thank you for registering"
         redirect '/'
       rescue
@@ -85,13 +81,9 @@ class App < Sinatra::Application
   post "/fish_factory" do
     fish = params[:fishname]
     wiki = params[:wiki]
-    insert_fish(fish, wiki)
+    id = session[:user_id]
+    @fish_table.insert_fish(fish, wiki, id)
     redirect '/'
-  end
-
-#---------------------------
-  def insert_fish(fishname, wiki)
-    @database_connection.sql("INSERT INTO fish (fishname, wiki_link, user_id) VALUES ('#{fishname}', '#{wiki}', '#{session[:user_id]}')")
   end
 
   get "/logout" do
@@ -101,17 +93,14 @@ class App < Sinatra::Application
 
   get "/user/:username" do
     user = params[:username]
-    erb :user_page, locals: { :user => user, :fish_data => users_fish_list(user) }
+    user_fish_list = users_fish_list(user)
+    erb :user_page, locals: { :user => user, :fish_data => user_fish_list}
   end
 
 #---------------------
   def users_fish_list(name)
-    user = @database_connection.sql("SELECT id FROM users WHERE username = '#{name}';")
-    fish_data = @database_connection.sql("SELECT id, fishname, wiki_link, user_id FROM fish;")
-    user_hash = user.pop
-    fish_data.select do |fish_hash|
-      user_hash["id"] == fish_hash["user_id"]
-    end
+    user = @users_table.get_user_name(name).pop
+    @fish_table.get_fish_data(user)
   end
 
   post "/add_as_favorite/:username" do
