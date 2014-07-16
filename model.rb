@@ -4,22 +4,6 @@
 
 
 
-def user_registration(username, password)
-  if username == "" || password == ""
-    username_and_password(username, password)
-    redirect '/registration'
-  else
-    begin
-      @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{username}', '#{password}')")
-      flash[:notice] = "Thank you for registering"
-      redirect '/'
-    rescue
-      flash[:error] = "This user already exists"
-      redirect '/'
-    end
-  end
-end
-
 ## HOMEPAGE WHEN LOGGED IN
 
 def finds_name(user_id)
