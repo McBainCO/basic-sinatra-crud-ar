@@ -21,5 +21,12 @@ class UsersTable
    @database_connection.sql("SELECT * FROM users WHERE username = '#{username}'")
   end
 
+  def delete_user_from_db_and_their_related_fish(user_delete)
+    id = @database_connection.sql("SELECT id FROM users WHERE username = '#{user_delete}'")
+    users_id = id.pop["id"]
+    @database_connection.sql("DELETE FROM fish WHERE user_id = '#{users_id}'")
+    @database_connection.sql("DELETE FROM users WHERE username = '#{user_delete}'")
+  end
+
 
 end

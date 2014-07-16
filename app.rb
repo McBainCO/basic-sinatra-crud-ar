@@ -42,51 +42,14 @@ class App < Sinatra::Application
     login_user_create_session(username, password)
   end
 
-  ###################################################
-
-  def login_user_create_session(username, password)
-    if username == "" || password == ""
-      username_and_password(username, password)
-      redirect '/'
-    else
-      data_name = @users_table.get_users_data(username)
-      data_name.each do |hash|
-      if hash["username"] == username && hash["password"] == password
-        session[:user_id] = hash["id"].to_i
-      else
-        flash[:error] = "Username and Password not found"
-      end
-    end
-    redirect '/'
-    end
-  end
-#^^^^^^
-
-  def username_and_password(username, password)
-    if username == "" and password == ""
-      flash[:error] = "No username or password provided"
-    elsif username == ""
-      flash[:error] = "No username provided"
-    elsif password == ""
-      flash[:error] = "No password provided"
-    else
-    end
-  end
-
-
   post "/delete_user" do
     user_to_delete = params[:delete_user]
-    delete_user_from_db(user_to_delete)
+    @users_table.delete_user_from_db_and_their_related_fish(user_to_delete)
     redirect "/"
   end
 
 #-------------------------------
-  def delete_user_from_db(user_delete)
-    id = @database_connection.sql("SELECT id FROM users WHERE username = '#{user_delete}'")
-    users_id = id.pop["id"]
-    @database_connection.sql("DELETE FROM fish WHERE user_id = '#{users_id}'")
-    @database_connection.sql("DELETE FROM users WHERE username = '#{user_delete}'")
-  end
+
 
 
   get "/registration" do
@@ -174,4 +137,37 @@ class App < Sinatra::Application
     end
   end
 
+end
+
+
+
+#CONTROLLER METHODS
+###################################################
+
+def login_user_create_session(username, password)
+  if username == "" || password == ""
+    username_and_password(username, password)
+    redirect '/'
+  else
+    data_name = @users_table.get_users_data(username)
+    data_name.each do |hash|
+      if hash["username"] == username && hash["password"] == password
+        session[:user_id] = hash["id"].to_i
+      else
+        flash[:error] = "Username and Password not found"
+      end
+    end
+    redirect '/'
+  end
+end
+
+def username_and_password(username, password)
+  if username == "" and password == ""
+    flash[:error] = "No username or password provided"
+  elsif username == ""
+    flash[:error] = "No username provided"
+  elsif password == ""
+    flash[:error] = "No password provided"
+  else
+  end
 end
