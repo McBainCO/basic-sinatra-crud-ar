@@ -22,17 +22,14 @@ class App < Sinatra::Application
     asc = params[:asc]
     desc = params[:desc]
     if session[:user_id]
-      erb :homepage2 , locals: {:name => finds_name(session[:user_id]),
-                               :users_data => username_id_hashes(check_for_order(asc, desc)),
+      name = @users_table.finds_name(session[:user_id])
+      users_data = @users_table.username_id_hashes(check_for_order(asc, desc))
+      erb :homepage2 , locals: {:name => name,
+                               :users_data => users_data,
                                 :users_fish_data => user_fish_data(session[:user_id])}
     else
       erb :homepage
     end
-  end
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  def finds_name(user_id)
-    username = @database_connection.sql("SELECT username FROM users WHERE id = #{user_id}")
-    username.pop["username"]
   end
 
   post "/" do
@@ -41,13 +38,7 @@ class App < Sinatra::Application
     login_user_create_session(username, password)
   end
     #^^^^^^^^^^^^^^^^^^^
-      def username_id_hashes(order=nil)
-         if order
-          @database_connection.sql("SELECT username, id FROM users ORDER BY username #{order}")
-        else
-          @database_connection.sql("SELECT username, id FROM users")
-        end
-      end
+
 
       def user_fish_data(id)
         @database_connection.sql("SELECT fishname, wiki_link, user_id FROM fish WHERE user_id = '#{id}';")
