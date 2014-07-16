@@ -58,14 +58,7 @@ def user_fish_data(id)
   @database_connection.sql("SELECT fishname, wiki_link, user_id FROM fish WHERE user_id = '#{id}';")
 end
 
-def check_for_order(asc, desc)
-  if asc && desc == nil
-    asc
-  elsif desc && asc == nil
-    desc
-  else nil
-  end
-end
+
 
 def delete_user_from_db(user_delete)
   id = @database_connection.sql("SELECT id FROM users WHERE username = '#{user_delete}'")

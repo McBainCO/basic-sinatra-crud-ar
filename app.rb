@@ -99,4 +99,13 @@ class App < Sinatra::Application
     end
   end
 
+  def check_for_order(asc, desc)
+    if asc && desc == nil
+      asc
+    elsif desc && asc == nil
+      desc
+    else nil
+    end
+  end
+
 end
