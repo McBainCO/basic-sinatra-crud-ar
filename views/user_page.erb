@@ -3,7 +3,6 @@
 <ul><% fish_data.each do |fish_hash| %>
       <li>
         <a href="<%= fish_hash["wiki_link"] %>"><%= fish_hash["fishname"] %></a>
-        <%= p fish_hash%>
         <form action="/add_as_favorite/:username" method="POST">
           <input type="hidden" name="fish_id" value=<%=fish_hash["id"]%>>
           <input type="hidden" name="user_id" value=<%=session[:user_id]%>>

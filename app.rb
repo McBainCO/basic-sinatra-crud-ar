@@ -1,5 +1,7 @@
 require "sinatra"
 require "active_record"
+require "fish_table"
+require "users_table"
 
 require "rack-flash"
  require_relative "model"
