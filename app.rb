@@ -4,7 +4,6 @@ require "fish_table"
 require "users_table"
 
 require "rack-flash"
- require_relative "model"
 
 require "gschool_database_connection"
 
@@ -32,6 +31,11 @@ class App < Sinatra::Application
      end
 
   end
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  def finds_name(user_id)
+    username = @database_connection.sql("SELECT username FROM users WHERE id = #{user_id}")
+    username.pop["username"]
+  end
 
   post "/" do
     username = params[:username]
@@ -39,6 +43,18 @@ class App < Sinatra::Application
 
     login_user_create_session(username, password)
   end
+    #^^^^^^^^^^^^^^^^^^^
+      def username_id_hashes(order=nil)
+         if order
+          @database_connection.sql("SELECT username, id FROM users ORDER BY username #{order}")
+        else
+          @database_connection.sql("SELECT username, id FROM users")
+        end
+      end
+
+      def user_fish_data(id)
+        @database_connection.sql("SELECT fishname, wiki_link, user_id FROM fish WHERE user_id = '#{id}';")
+      end
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   def login_user_create_session(username, password)
     if username == "" || password == ""
@@ -62,6 +78,15 @@ class App < Sinatra::Application
     delete_user_from_db(user_to_delete)
     redirect "/"
   end
+
+#-------------------------------
+  def delete_user_from_db(user_delete)
+    id = @database_connection.sql("SELECT id FROM users WHERE username = '#{user_delete}'")
+    users_id = id.pop["id"]
+    @database_connection.sql("DELETE FROM fish WHERE user_id = '#{users_id}'")
+    @database_connection.sql("DELETE FROM users WHERE username = '#{user_delete}'")
+  end
+
 
   get "/registration" do
     erb :registration
@@ -104,6 +129,11 @@ class App < Sinatra::Application
     redirect '/'
   end
 
+#---------------------------
+  def insert_fish(fishname, wiki)
+    @database_connection.sql("INSERT INTO fish (fishname, wiki_link, user_id) VALUES ('#{fishname}', '#{wiki}', '#{session[:user_id]}')")
+  end
+
   get "/logout" do
     session.delete(:user_id)
     redirect '/'
@@ -114,6 +144,18 @@ class App < Sinatra::Application
     erb :user_page, locals: { :user => user, :fish_data => users_fish_list(user) }
   end
 
+#---------------------
+  def users_fish_list(name)
+    user = @database_connection.sql("SELECT id FROM users WHERE username = '#{name}';")
+    fish_data = @database_connection.sql("SELECT id, fishname, wiki_link, user_id FROM fish;")
+    user_hash = user.pop
+
+    fish_data.select do |fish_hash|
+      user_hash["id"] == fish_hash["user_id"]
+    end
+  end
+
+
 
   post "/add_as_favorite/:username" do
    user = params[:username]
@@ -122,6 +164,12 @@ class App < Sinatra::Application
 
    favoritor_user_id(fish_id, user_id)
    redirect "/user/#{user}"
+  end
+
+#-----------------------
+  def favoritor_user_id(fish_id, user_id)
+    @database_connection.sql("INSERT INTO favorites (fish_id, user_id) VALUES (#{fish_id.to_i}, #{user_id.to_i})")
+
   end
 
   def username_and_password(username, password)
