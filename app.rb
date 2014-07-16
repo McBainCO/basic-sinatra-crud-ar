@@ -2,6 +2,7 @@ require "sinatra"
 require "active_record"
 require_relative "lib/fish_table"
 require_relative "lib/users_table"
+require_relative "lib/favs_table"
 require "rack-flash"
 require "gschool_database_connection"
 
@@ -12,13 +13,10 @@ class App < Sinatra::Application
 
   def initialize
     super
-    @users_table = UsersTable.new(
-      GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
-    )
-    @fish_table = FishyTable.new(
-      GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
-    )
-    @database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
+    dbase_connection_to_pass = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
+    @users_table = UsersTable.new(dbase_connection_to_pass)
+    @fish_table = FishyTable.new(dbase_connection_to_pass)
+    @favorites_table = FavsTable.new(dbase_connection_to_pass)
   end
 
   get "/" do
@@ -97,7 +95,7 @@ class App < Sinatra::Application
     erb :user_page, locals: { :user => user, :fish_data => user_fish_list}
   end
 
-#---------------------
+
   def users_fish_list(name)
     user = @users_table.get_user_name(name).pop
     @fish_table.get_fish_data(user)
@@ -107,15 +105,9 @@ class App < Sinatra::Application
    user = params[:username]
    fish_id = params[:fish_id]
    user_id = params[:user_id]
-   favoritor_user_id(fish_id, user_id)
+   @favs_table.favoritor_user_id(fish_id, user_id)
    redirect "/user/#{user}"
   end
-
-#-----------------------
-  def favoritor_user_id(fish_id, user_id)
-    @database_connection.sql("INSERT INTO favorites (fish_id, user_id) VALUES (#{fish_id.to_i}, #{user_id.to_i})")
-  end
-
 
   def check_for_order(asc, desc)
     if asc && desc == nil
