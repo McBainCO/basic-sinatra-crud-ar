@@ -86,8 +86,17 @@ class App < Sinatra::Application
 
    favoritor_user_id(fish_id, user_id)
    redirect "/user/#{user}"
+  end
 
-
+  def username_and_password(username, password)
+    if username == "" and password == ""
+      flash[:error] = "No username or password provided"
+    elsif username == ""
+      flash[:error] = "No username provided"
+    elsif password == ""
+      flash[:error] = "No password provided"
+    else
+    end
   end
 
 end

@@ -1,15 +1,6 @@
 ## REGISTRATION AND SIGNIN LOGIC
 
-def username_and_password(username, password)
-  if username == "" and password == ""
-    flash[:error] = "No username or password provided"
-  elsif username == ""
-    flash[:error] = "No username provided"
-  elsif password == ""
-    flash[:error] = "No password provided"
-  else
-  end
-end
+
 
 def login_user_create_session(username, password)
   if username == "" || password == ""
