@@ -15,6 +15,9 @@ class App < Sinatra::Application
     @users_table = UsersTable.new(
       GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
     )
+    @fish_table = FishTable.new(
+      GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
+    )
     @database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
   end
 
@@ -24,7 +27,7 @@ class App < Sinatra::Application
     if session[:user_id]
       name = @users_table.finds_name(session[:user_id])
       users_data = @users_table.username_id_hashes(check_for_order(asc, desc))
-      fish_data = user_fish_data(session[:user_id])
+      fish_data = @fish_table.user_fish_data(session[:user_id])
       erb :homepage2 , locals: {:name => name,
                                :users_data => users_data,
                                 :users_fish_data => fish_data }
@@ -38,19 +41,15 @@ class App < Sinatra::Application
     password = params[:password]
     login_user_create_session(username, password)
   end
-    #^^^^^^^^^^^^^^^^^^^
 
+  ###################################################
 
-      def user_fish_data(id)
-        @database_connection.sql("SELECT fishname, wiki_link, user_id FROM fish WHERE user_id = '#{id}';")
-      end
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   def login_user_create_session(username, password)
     if username == "" || password == ""
       username_and_password(username, password)
       redirect '/'
     else
-      data_name = @database_connection.sql("SELECT * FROM users WHERE username = '#{username}'")
+      data_name = @users_table.get_users_data(username)
       data_name.each do |hash|
       if hash["username"] == username && hash["password"] == password
         session[:user_id] = hash["id"].to_i
@@ -61,6 +60,19 @@ class App < Sinatra::Application
     redirect '/'
     end
   end
+#^^^^^^
+
+  def username_and_password(username, password)
+    if username == "" and password == ""
+      flash[:error] = "No username or password provided"
+    elsif username == ""
+      flash[:error] = "No username provided"
+    elsif password == ""
+      flash[:error] = "No password provided"
+    else
+    end
+  end
+
 
   post "/delete_user" do
     user_to_delete = params[:delete_user]
@@ -152,16 +164,6 @@ class App < Sinatra::Application
     @database_connection.sql("INSERT INTO favorites (fish_id, user_id) VALUES (#{fish_id.to_i}, #{user_id.to_i})")
   end
 
-  def username_and_password(username, password)
-    if username == "" and password == ""
-      flash[:error] = "No username or password provided"
-    elsif username == ""
-      flash[:error] = "No username provided"
-    elsif password == ""
-      flash[:error] = "No password provided"
-    else
-    end
-  end
 
   def check_for_order(asc, desc)
     if asc && desc == nil

@@ -17,5 +17,9 @@ class UsersTable
     end
   end
 
+  def get_users_data(username)
+   @database_connection.sql("SELECT * FROM users WHERE username = '#{username}'")
+  end
+
 
 end
