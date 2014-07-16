@@ -1,10 +1,10 @@
 require "sinatra"
 require "active_record"
-require "fish_table"
-require "users_table"
+require_relative "lib/fish_table"
+require_relative "lib/users_table"
 require "rack-flash"
 require "gschool_database_connection"
-require "users_table"
+
 
 class App < Sinatra::Application
   enable :sessions
