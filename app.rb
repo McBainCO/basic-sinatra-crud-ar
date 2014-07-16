@@ -2,9 +2,7 @@ require "sinatra"
 require "active_record"
 require "fish_table"
 require "users_table"
-
 require "rack-flash"
-
 require "gschool_database_connection"
 
 class App < Sinatra::Application
@@ -13,23 +11,19 @@ class App < Sinatra::Application
 
   def initialize
     super
-
     @database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
-
   end
 
   get "/" do
     asc = params[:asc]
     desc = params[:desc]
-
     if session[:user_id]
       erb :homepage2 , locals: {:name => finds_name(session[:user_id]),
                                :users_data => username_id_hashes(check_for_order(asc, desc)),
                                 :users_fish_data => user_fish_data(session[:user_id])}
     else
       erb :homepage
-     end
-
+    end
   end
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   def finds_name(user_id)
@@ -40,7 +34,6 @@ class App < Sinatra::Application
   post "/" do
     username = params[:username]
     password = params[:password]
-
     login_user_create_session(username, password)
   end
     #^^^^^^^^^^^^^^^^^^^
@@ -63,13 +56,13 @@ class App < Sinatra::Application
     else
       data_name = @database_connection.sql("SELECT * FROM users WHERE username = '#{username}'")
       data_name.each do |hash|
-        if hash["username"] == username && hash["password"] == password
-          session[:user_id] = hash["id"].to_i
-        else
-          flash[:error] = "Username and Password not found"
-        end
+      if hash["username"] == username && hash["password"] == password
+        session[:user_id] = hash["id"].to_i
+      else
+        flash[:error] = "Username and Password not found"
       end
-      redirect '/'
+    end
+    redirect '/'
     end
   end
 
@@ -95,7 +88,6 @@ class App < Sinatra::Application
   post "/registration"  do
     username = params[:username]
     password = params[:password]
-
     user_registration(username, password)
   end
 #^^^^^^^^^^^^^^^^^^^^^^^^
@@ -114,9 +106,6 @@ class App < Sinatra::Application
       end
     end
   end
-
-
-
 
   get "/fish_factory" do
     erb :fish
@@ -149,19 +138,15 @@ class App < Sinatra::Application
     user = @database_connection.sql("SELECT id FROM users WHERE username = '#{name}';")
     fish_data = @database_connection.sql("SELECT id, fishname, wiki_link, user_id FROM fish;")
     user_hash = user.pop
-
     fish_data.select do |fish_hash|
       user_hash["id"] == fish_hash["user_id"]
     end
   end
 
-
-
   post "/add_as_favorite/:username" do
    user = params[:username]
    fish_id = params[:fish_id]
    user_id = params[:user_id]
-
    favoritor_user_id(fish_id, user_id)
    redirect "/user/#{user}"
   end
@@ -169,7 +154,6 @@ class App < Sinatra::Application
 #-----------------------
   def favoritor_user_id(fish_id, user_id)
     @database_connection.sql("INSERT INTO favorites (fish_id, user_id) VALUES (#{fish_id.to_i}, #{user_id.to_i})")
-
   end
 
   def username_and_password(username, password)
