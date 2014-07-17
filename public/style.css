@@ -35,9 +35,10 @@
 #info_box {
     border: 2px solid black;
     border-radius: 20px;
-    height: 100px;
+    height: 80%;
     text-align: center;
     padding-top: 25px;
+    padding-left: 10px;
 }
 
 #border_text {

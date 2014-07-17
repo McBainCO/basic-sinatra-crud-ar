@@ -66,8 +66,8 @@ class App < Sinatra::Application
         flash[:notice] = "Thank you for registering"
         redirect '/'
       rescue
-        flash[:error] = "This user already exists"
-        redirect '/'
+        flash[:reg_error] = "This user already exists"
+        redirect '/registration'
       end
     end
   end

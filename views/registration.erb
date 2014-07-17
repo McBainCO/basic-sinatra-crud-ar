@@ -2,11 +2,15 @@
 <div class="registration">
 <h1>Register Here!</h1>
 
-  <div id="info_box">
-  <h3 id="border_text">Information</h3>
+
+
 
 <form action="/registration" method="post">
-
+  <div id="info_box">
+    <h3 id="border_text">Information</h3>
+  <% if flash[:reg_error] %>
+  <p  style="color: red; text-align: left; "><%= flash[:reg_error] %></p>
+  <% end %>
       <label for="username">Username</label>
       <input class="not_wide_input" type="text" name="username" id="username"/>
    <br/>
@@ -16,12 +20,16 @@
     <br/>
     <br/>
 
-  <button class="wide_input" style="margin-top: 50px;">Submit</button>
+
 
   </div>
+<br/>
+  <button class="wide_input" >Submit</button>
+
+
+  </form>
 
 </div>
 
 
 
-</form>
