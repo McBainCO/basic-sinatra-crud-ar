@@ -1,3 +1,5 @@
+<div class="registration">
+
 <h1><%= "Welcome #{name}" %></h1>
 
 <a href="/logout"><button>Logout</button></a>
@@ -12,15 +14,24 @@
   <input type="radio" name="desc" value="DESC">Z to A<br>
   <button>Reorder</button>
 </form>
+<br/>
+<table id="user_list" class="bordered_table">
+  <tr class="headings">
+    <td>User</td>
+    <td>Action</td>
+  </tr>
 
-<ul id="user_list">
   <% users_data.map do |hash| %>
+    <tbody class="grid">
+    <tr>
     <% if session[:user_id] != hash["id"].to_i %>
-      <li><a href="/user/<%= hash["username"] %>"><%= hash["username"] %></a></li><br>
-        <form action='/delete_user' method='post'><button name='delete_user' type='submit' value='<%= hash["username"] %>'>Delete <%= hash["username"] %></button></form>
+      <td><a href="/user/<%= hash["username"] %>"><%= hash["username"] %></a></td>
+      <td><form action='/delete_user' method='post'><button name='delete_user' type='submit' value='<%= hash["username"] %>'>Delete <%= hash["username"] %></button></form></td>
     <% end %>
+    </tr>
   <% end %>
-</ul>
+  </tbody>
+</table>
 
 <h3>Your Fish</h3>
 
@@ -29,4 +40,4 @@
   <% end %>
 </ul>
 
-
+</div>
