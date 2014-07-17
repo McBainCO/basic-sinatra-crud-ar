@@ -9,9 +9,11 @@
   <article class="one_fourth"></article>
   <article class="one_half" id="flash_box">
     <% if flash[:notice] %>
-      <p style="color: green"><%= flash[:notice] %></p>
+      <p class="registration" style="color: green"><%= flash[:notice] %></p>
+      <br/>
       <% elsif flash[:error] %>
-        <p style="color: red"><%= flash[:error] %></p>
+        <p class="registration" style="color: red"><%= flash[:error] %></p>
+      <br/>
       <% end %>
 
 
