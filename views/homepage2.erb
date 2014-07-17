@@ -2,42 +2,54 @@
 
 <h1><%= "Welcome #{name}" %></h1>
 
-<a href="/logout"><button>Logout</button></a>
 
-<a href="/fish_factory"><h2>Add Fish</h2></a>
 
-<h3>Other Users</h3>
 
-<p>Order:</p>
-<form>
-  <input type="radio" name="asc" value="ASC">A to Z<br>
-  <input type="radio" name="desc" value="DESC">Z to A<br>
+
+<h3 style="text-align: center;">Other Users</h3>
+
+
+<form style="display: inline;">
+  <label>Order</label>
+  <input type="radio" name="asc" value="ASC">
+  <label for="asc">A to z</label>
+  <input type="radio" name="desc" value="DESC">
+  <label for="desc">Z to a</label>
   <button>Reorder</button>
 </form>
 <br/>
-<table id="user_list" class="bordered_table">
-  <tr class="headings">
-    <td>User</td>
-    <td>Action</td>
-  </tr>
-
+<table id="user_list">
+  <thead>
+    <td class="headings">User</td>
+    <td class="headings">Action</td>
+  </thead>
+  <tbody>
   <% users_data.map do |hash| %>
-    <tbody class="grid">
+
     <tr>
     <% if session[:user_id] != hash["id"].to_i %>
       <td><a href="/user/<%= hash["username"] %>"><%= hash["username"] %></a></td>
-      <td><form action='/delete_user' method='post'><button name='delete_user' type='submit' value='<%= hash["username"] %>'>Delete <%= hash["username"] %></button></form></td>
+      <td>
+        <form action='/delete_user' method='post'>
+          <button id="delete_button"  name='delete_user' type='submit' value='<%= hash["username"] %>'>Delete <%= hash["username"] %></button>
+        </form>
+      </td>
     <% end %>
     </tr>
   <% end %>
   </tbody>
 </table>
 
-<h3>Your Fish</h3>
+<h3 style="text-align: center;">Your Fish</h3>
 
 <ul><% users_fish_data.each do |fish_hash| %>
       <li><a href="<%= fish_hash["wiki_link"] %>"><%= fish_hash["fishname"] %></a></li>
   <% end %>
 </ul>
+  <a href="/fish_factory"><button id="create_button">Add Fish</button></a>
+<br/>
+  <br/>
+  <a style="text-decoration: none;" href="/logout"><button class="button">Logout</button></a>
 
 </div>
+

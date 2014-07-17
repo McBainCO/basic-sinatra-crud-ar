@@ -52,17 +52,9 @@
     background: white ;
 }
 
-.bordered_table {
-    border:2px solid grey;
-    /*border-radius:20px;*/
-}
 
-.headings {
-    background: darkgray;
-}
 
-.grid { border:2px solid grey;
-}
+
 
 .button {
     border: 1px outset black;
@@ -72,4 +64,36 @@
     font-size: 14px;
 }
 
+#create_button {
+    border: 1px outset black;
+    width: 75px;
+    height: 25px;
+    margin: auto;
+    font-size: 14px;
+    float:right;
+}
+#delete_button {
+    border: 1px outset black;
+}
+
+.headings {
+    background: hotpink;
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 300px;
+
+}
+
+
+table td {
+    border: 1px solid black;
+
+}
+
+tbody tr:nth-child(odd) td{
+    background-color: aquamarine;
+}
 
