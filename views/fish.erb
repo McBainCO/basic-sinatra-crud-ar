@@ -1,17 +1,21 @@
-<h1>Create a Fish</h1>
 
-<form action="/fish_factory" method="post">
-  <ul>
-    <li>
-      <label name="fishname">Fishname</label>
-      <input type="text" name="fishname" id="fishname"/>
-    </li>
-    <li>
-      <label name="wiki">Wiki</label>
-      <input type="text" name="wiki" id="wiki"/>
-    </li>
-    <li>
-      <button>Submit</button>
-    </li>
-  </ul>
-</form>
+<div class="registration">
+  <h1>Create a Fish</h1>
+
+  <form action="/fish_factory" method="post">
+    <div style="padding-right: 20px" id="info_box">
+      <h3 id="border_text">Information</h3>
+      <label style="float: left;" name="fishname">Name:</label>
+      <input style="float: right;" class="not_wide_input" type="text" name="fishname" id="fishname"/>
+
+      <br/>
+      <label style="float: left;" name="wiki">Wiki:</label>
+      <input style="float: right;" class="not_wide_input" type="text" name="wiki" id="wiki"/>
+      <br/>
+      <br/>
+    </div>
+    <br/>
+    <br/>
+    <button class="button">Submit</button>
+  </form>
+</div>
