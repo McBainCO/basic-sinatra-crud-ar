@@ -41,13 +41,29 @@
 </table>
 
 <h3 style="text-align: center;">Your Fish</h3>
+<table>
+  <thead>
+    <td class="headings">Fishname</td>
+    <td class="headings">Actions</td>
+  </thead>
+  <tbody>
+    <% users_fish_data.each do |fish_hash| %>
+    <tr>
+      <td>
+        <%= fish_hash["fishname"] %>
+      </td>
+      <td>
+        <a href="<%= fish_hash["wiki_link"] %>">wikilink</a>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<ul><% users_fish_data.each do |fish_hash| %>
-      <li><a href="<%= fish_hash["wiki_link"] %>"><%= fish_hash["fishname"] %></a></li>
-  <% end %>
-</ul>
-  <a href="/fish_factory"><button id="create_button">Add Fish</button></a>
 <br/>
+  <br/>
+  <a href="/fish_factory"><button id="create_button">Add Fish</button></a>
+  <br/>
   <br/>
   <a style="text-decoration: none;" href="/logout"><button class="button">Logout</button></a>
 
